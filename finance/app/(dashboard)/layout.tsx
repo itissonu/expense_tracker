@@ -1,0 +1,18 @@
+
+import Header from '@/components/ui/Header';
+import React from 'react'
+
+const Dashlayout = ({
+    children,
+}: Readonly<{
+    children: React.ReactNode;
+}>) => {
+    return (
+        <>
+        <Header/>
+            <main className='px-3 lg:px-14'>{children}</main>
+        </>
+    )
+}
+
+export default Dashlayout
