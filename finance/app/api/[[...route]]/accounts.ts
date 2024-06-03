@@ -1,17 +1,23 @@
+
 import { db } from "@/db/drizzle";
-import { accounts } from "@/db/schema";
+import { accounts, insertAccountSchema } from "@/db/schema";
 import { HTTPException } from "hono/http-exception";
 import { clerkMiddleware, getAuth } from "@hono/clerk-auth";
 import { Hono } from "hono";
+import { zValidator } from "@hono/zod-validator"
 import { eq } from "drizzle-orm";
+import { createId } from "@paralleldrive/cuid2"
+
+
 
 const app = new Hono().get("/", clerkMiddleware(), async (c) => {
     const auth = getAuth(c)
     if (!auth?.userId) {
-        throw new HTTPException(401, {
-            res: c.json({ error: "unauthorized..." }, 401)
-        })
+        return c.json({
+            error: "unauth...."
+        }, 401)
     }
+   
     const data = await db.select({
         id: accounts.id,
         name: accounts.name
@@ -20,7 +26,31 @@ const app = new Hono().get("/", clerkMiddleware(), async (c) => {
 
     return c.json({ data: data })
 
-})
+}).post("/",
+    clerkMiddleware(),
+    zValidator("json", insertAccountSchema.pick({ name: true })),
+    async (c) => {
+       
+
+        const auth = getAuth(c)
+        const values = c.req.valid("json")
+
+        if (!auth?.userId) {
+            return c.json({
+                error: "unauth...."
+            }, 401)
+        }
+      
+        const [data] = await db.insert(accounts).values({
+            id: createId(),
+            userId: auth?.userId,
+            ...values,
+        }).returning();
+        console.log(data)
+
+        return c.json({ data })
+
+    })
 
 
 export default app;
