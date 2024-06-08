@@ -1,6 +1,10 @@
 "use client"
 
+import Editaccountsheets from '@/features/accounts/components/edit-account-sheet'
 import Newaccountsheets from '@/features/accounts/components/new-account-sheets'
+import Editcategorysheets from '@/features/categories/components/edit-categories-sheet'
+import NewCategorysheets from '@/features/categories/components/new-categories-sheets'
+import NewTransactionsheets from '@/features/transactions/components/new-transactions-sheets'
 import React, { useEffect, useState } from 'react'
 import { useMountedState } from 'react-use'
 
@@ -18,6 +22,10 @@ const Sheetprovider = () => {
     return (
         <div>
             <Newaccountsheets />
+            <Editaccountsheets/>
+            <NewCategorysheets/>
+            <Editcategorysheets/>
+            <NewTransactionsheets/>
         </div>
     )
 }

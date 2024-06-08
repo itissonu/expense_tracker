@@ -9,12 +9,14 @@ import { DataTable } from "@/components/data-table";
 import { useGetAccounts } from "@/features/accounts/api/use-get-accounts";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useBulkDeletetAccount } from "@/features/accounts/api/use-bulk-delete";
+import { useNewTransaction } from "@/features/transactions/hooks/use-new-transaction";
+import { useGetTransaction } from "@/features/transactions/api/use-get-transcation";
 
 const data: [] = [];
 
-const AccountPage = () => {
-  const { onOpen } = useNewAccount();
-  const accountQuery = useGetAccounts();
+const TranscationPage = () => {
+  const { onOpen } = useNewTransaction();
+  const accountQuery = useGetTransaction();
   const accounts = accountQuery.data || [];
   const deleteAccounts = useBulkDeletetAccount();
   const isDisabled = (accountQuery.isLoading || deleteAccounts.isPending)
@@ -61,4 +63,4 @@ const AccountPage = () => {
   );
 };
 
-export default AccountPage;
+export default TranscationPage;

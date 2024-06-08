@@ -1,7 +1,8 @@
 
 
+
 import { db } from "@/db/drizzle";
-import { accounts, insertAccountSchema } from "@/db/schema";
+import { categories,accounts, insertCategoriesSchema } from "@/db/schema";
 import { HTTPException } from "hono/http-exception";
 import { clerkMiddleware, getAuth } from "@hono/clerk-auth";
 import { Hono } from "hono";
@@ -21,10 +22,10 @@ const app = new Hono().get("/", clerkMiddleware(), async (c) => {
     }
 
     const data = await db.select({
-        id: accounts.id,
-        name: accounts.name
-    }).from(accounts)
-        .where(eq(accounts.userId, auth.userId))
+        id:categories.id,
+        name: categories.name
+    }).from(categories)
+        .where(eq(categories.userId, auth.userId))
 
     return c.json({ data: data })
 
@@ -48,13 +49,13 @@ const app = new Hono().get("/", clerkMiddleware(), async (c) => {
         }
         console.log((id))
         const [data] = await db.select({
-            id: accounts.id,
-            name: accounts.name
-        }).from(accounts)
+            id: categories.id,
+            name: categories.name
+        }).from(categories)
             .where(
                 and(
-                    eq(accounts.userId, auth.userId),
-                    eq(accounts.id, id)
+                    eq(categories.userId, auth.userId),
+                    eq(categories.id, id)
                 ),
             );
         if (!data) {
@@ -67,7 +68,7 @@ const app = new Hono().get("/", clerkMiddleware(), async (c) => {
     })
     .post("/",
         clerkMiddleware(),
-        zValidator("json", insertAccountSchema.pick({ name: true })),
+        zValidator("json", insertCategoriesSchema.pick({ name: true })),
         async (c) => {
 
 
@@ -80,7 +81,7 @@ const app = new Hono().get("/", clerkMiddleware(), async (c) => {
                 }, 401)
             }
 
-            const [data] = await db.insert(accounts).values({
+            const [data] = await db.insert(categories).values({
                 id: createId(),
                 userId: auth?.userId,
                 ...values,
@@ -104,14 +105,14 @@ const app = new Hono().get("/", clerkMiddleware(), async (c) => {
                     error: "unauth...."
                 }, 401)
             }
-            const data = await db.delete(accounts).where(
+            const data = await db.delete(categories).where(
                 and(
-                    eq(accounts.userId, auth.userId),
-                    inArray(accounts.id, values.ids)
+                    eq(categories.userId, auth.userId),
+                    inArray(categories.id, values.ids)
 
                 )
             ).returning({
-                id: accounts.id
+                id: categories.id
             })
             return c.json({ data })
         }
@@ -120,7 +121,7 @@ const app = new Hono().get("/", clerkMiddleware(), async (c) => {
         zValidator("param", z.object({
             id: z.string().optional(),
         })),
-        zValidator("json", insertAccountSchema.pick({
+        zValidator("json", insertCategoriesSchema.pick({
             name: true
         })),
         async (c) => {
@@ -137,12 +138,12 @@ const app = new Hono().get("/", clerkMiddleware(), async (c) => {
                     error: "unauth...."
                 }, 401)
             }
-            const [data] = await db.update(accounts)
+            const [data] = await db.update(categories)
                 .set(values)
                 .where(
                     and(
-                        eq(accounts.userId, auth.userId),
-                        eq(accounts.id, id),
+                        eq(categories.userId, auth.userId),
+                        eq(categories.id, id),
                     ),
                 ).returning();
 
@@ -174,14 +175,14 @@ const app = new Hono().get("/", clerkMiddleware(), async (c) => {
                         error: "unauth...."
                     }, 401)
                 }
-                const [data] = await db.delete(accounts)
+                const [data] = await db.delete(categories)
                  
                     .where(
                         and(
-                            eq(accounts.userId, auth.userId),
-                            eq(accounts.id, id),
+                            eq(categories.userId, auth.userId),
+                            eq(categories.id, id),
                         ),
-                    ).returning({id:accounts.id});
+                    ).returning({id:categories.id});
     
                 if (!data) {
                     return c.json({

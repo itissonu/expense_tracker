@@ -15,6 +15,20 @@
       "when": 1717341080648,
       "tag": "0001_clammy_skin",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1717674592142,
+      "tag": "0002_big_living_mummy",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1717851429272,
+      "tag": "0003_slippery_magus",
+      "breakpoints": true
     }
   ]
 }

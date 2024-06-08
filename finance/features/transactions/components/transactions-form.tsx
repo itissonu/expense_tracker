@@ -5,7 +5,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { insertAccountSchema } from "@/db/schema";
+import {  insertCategoriesSchema } from "@/db/schema";
 
 import {
   FormControl,
@@ -16,7 +16,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-const formSchema = insertAccountSchema.pick({
+const formSchema = insertCategoriesSchema.pick({
   name: true,
 });
 type FormValues = z.input<typeof formSchema>;
@@ -28,7 +28,7 @@ type Props = {
   disabled?: boolean;
 };
 
-const Accountform = ({
+const Transactionform = ({
   id,
   defaultvalues,
   onSubmit,
@@ -58,7 +58,7 @@ const Accountform = ({
               <FormControl>
                 <Input
                   disabled={disabled}
-                  placeholder="eg. cash,bank,Debit card"
+                  placeholder="eg. Shopping,food,book, etc"
                   {...field}
                 />
               </FormControl>
@@ -66,7 +66,7 @@ const Accountform = ({
           )}
         />
         <Button className="w-full" disabled={disabled}>
-          {id ? "Save changes" : "Create account"}
+          {id ? "Save changes" : "Create category"}
         </Button>
         {!!id && (
           <Button
@@ -76,7 +76,7 @@ const Accountform = ({
             className="w-full"
           >
             <Trash className="size-4 mr-2" />
-            Delete Account
+            Delete category
           </Button>
         )}
       </form>
@@ -84,4 +84,4 @@ const Accountform = ({
   );
 };
 
-export default Accountform;
+export default Transactionform;
