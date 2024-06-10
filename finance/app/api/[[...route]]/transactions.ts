@@ -19,6 +19,7 @@ const app = new Hono().get("/", zValidator("query", z.object({
     accountId: z.string().optional(),
 })), clerkMiddleware(), async (c) => {
     const auth = getAuth(c)
+    const { from, to, accountId } = c.req.valid("query")
     if (!auth?.userId) {
         return c.json({
             error: "unauth...."
@@ -26,7 +27,7 @@ const app = new Hono().get("/", zValidator("query", z.object({
 
     }
 
-    const { from, to, accountId } = c.req.valid("query")
+   
     //we will show last 30 days transactions
     const defaultTo = new Date();
     const defaultFrom = subDays(defaultTo, 30)
@@ -85,12 +86,12 @@ const app = new Hono().get("/", zValidator("query", z.object({
         const [data] = await db.select({
             id: transactions.id,
             date: transactions.date,
-            category: categories.name,
+          
             categoryId: transactions.categoryId,
             payee: transactions.payee,
             amount: transactions.amount,
             notes: transactions.notes,
-            account: accounts.name,
+            
             accountid: transactions.accountId
         }).from(transactions)
             .innerJoin(accounts, eq(transactions.accountId, accounts.id))

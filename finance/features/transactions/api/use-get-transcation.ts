@@ -6,10 +6,10 @@ import { useSearchParams } from "next/navigation";
 export const useGetTransaction = () => {
     const params = useSearchParams()
     const from = params.get("from") || "";
-    const to = params.get("to") || " ";
-    const accountId = params.get("accountId") ||" "
+    const to = params.get("to") || "";
+    const accountId = params.get("accountId") || ""
 
-
+    console.log({ from, to, accountId });
     const query = useQuery({
         queryKey: ["transactions", { from, to, accountId }],
         queryFn: async () => {
@@ -19,6 +19,7 @@ export const useGetTransaction = () => {
                 }
             })
             if (!response.ok) {
+                console.log(response)
                 throw new Error("falied to fetch error");
             }
             const { data } = await response.json()

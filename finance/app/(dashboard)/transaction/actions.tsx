@@ -7,14 +7,15 @@ import {
     DropdownMenuLabel,
     DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
-import { useOpenAccount } from '@/features/accounts/hooks/use-open-account'
+
+import { useOpenTransaction } from '@/features/transactions/hooks/use-open-transaction'
 import { Edit, MoreHorizontal } from 'lucide-react'
 import React from 'react'
 type Props = {
     id: string
 }
 const Actions = ({ id }: Props) => {
-    const{ onOpen }=useOpenAccount()
+    const{ onOpen }=useOpenTransaction()
     return (
         <>
             <DropdownMenu>
