@@ -66,20 +66,20 @@ export function DataTable<TData, TValue>({
     <div>
       <div className="flex items-center py-4">
         <Input
-          placeholder="Filter emails..."
+          placeholder={`Filter ${filterKey}... `}
           value={(table.getColumn(filterKey)?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
+            table.getColumn(filterKey)?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
         {table.getFilteredSelectedRowModel().rows.length > 0 && (
           <Button
-          disabled={disabled}
+            disabled={disabled}
             className="ml-auto font-normal text-xs bg-red-50"
             variant="outline"
             size="sm"
-            onClick={()=>{
+            onClick={() => {
               onDelete(table.getFilteredSelectedRowModel().rows)
               table.resetRowSelection();
             }}
@@ -101,9 +101,9 @@ export function DataTable<TData, TValue>({
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
                     </TableHead>
                   );
                 })}
