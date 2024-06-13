@@ -2,23 +2,22 @@
 import { useGetSummary } from '@/features/summary/api/use-get-summary'
 import React from 'react'
 import Charts from './charts'
+import PiCharts from './pie-chart'
 
 const DataCharts = () => {
-
     const { data, isLoading } = useGetSummary()
-    if (isLoading) {
-        return (
-            <div>
 
-            </div>
-        )
+    if (isLoading) {
+        return <div>Loading...</div>
     }
 
-
     return (
-        <div className='grid grid-cols-1 lg:grid-cols-6 gap-8'>
-            <div className='col-span-1 lg:col-span-3 xl:col-span-4'>
+        <div className='flex flex-col lg:flex-row justify-center'>
+            <div className='lg:w-2/3 lg:mr-6'>
                 <Charts data={data?.days} />
+            </div>
+            <div className='lg:w-1/3'>
+                <PiCharts data={data?.categories}/>
             </div>
         </div>
     )
