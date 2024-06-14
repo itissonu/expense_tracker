@@ -8,10 +8,12 @@ const Dashlayout = ({
     children: React.ReactNode;
 }>) => {
     return (
-        <>
-        <Header/>
-            <main className='px-3 lg:px-14'>{children}</main>
-        </>
+        <div className="w-full overflow-hidden">
+      <Header />
+      <main className="px-3 lg:px-14 w-full">
+        {children}
+      </main>
+    </div>
     )
 }
 
