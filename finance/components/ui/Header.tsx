@@ -4,6 +4,7 @@ import HeaderLogo from './headerLogo'
 import Navigation from '../navigation'
 import { ClerkLoaded, ClerkLoading, UserButton, useUser } from '@clerk/nextjs'
 import { Loader2 } from 'lucide-react'
+import Filters from '../filters'
 
 const Header = () => {
     const {user,isLoaded}=useUser()
@@ -32,6 +33,7 @@ const Header = () => {
                         This iS your Finacial Overview Check it out
 
                     </p>
+                    <Filters/>
                 </div>
             </div>
 

@@ -27,7 +27,7 @@ const app = new Hono().get("/", zValidator("query", z.object({
 
     }
 
-   
+    console.error('Received query parameters:', { from, to, accountId });
     //we will show last 30 days transactions
     const defaultTo = new Date();
     const defaultFrom = subDays(defaultTo, 30)
@@ -36,6 +36,7 @@ const app = new Hono().get("/", zValidator("query", z.object({
         parse(from, "yyyy-MM-dd", new Date()) : defaultFrom;
     const endtDate = to ?
         parse(to, "yyyy-MM-dd", new Date()) : defaultTo;
+        console.error('Parsed dates:', { startDate, endtDate });
 
     const data = await db.select({
         id: transactions.id,
@@ -53,7 +54,7 @@ const app = new Hono().get("/", zValidator("query", z.object({
         .leftJoin(categories, eq(transactions.categoryId, categories.id))
         .where(
             and(
-                accountId ? eq(transactions.id, accountId) : undefined,
+                accountId ? eq(transactions.accountId, accountId) : undefined,
                 eq(accounts.userId, auth.userId),
                 gte(transactions.date, startDate),
                 lte(transactions.date, endtDate)
